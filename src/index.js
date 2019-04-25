@@ -7,10 +7,10 @@ import { Select, Button, Switch, Input } from 'antd';
 const Option = Select.Option;
 
 const operatorExpression = [
-  {name:"等于",       id: 1,  symbol:"="},
-  {name:"不等于",     id: 2,  symbol:"!="},
-  {name:"非空",       id: 3, symbol:"is not null"},
-  {name:"空",         id: 4,  symbol:"is null"}
+  {name:"equal",       id: 1,  symbol:"="},
+  {name:"not equal",     id: 2,  symbol:"!="},
+  {name:"is not null",       id: 3, symbol:"is not null"},
+  {name:"is null",         id: 4,  symbol:"is null"}
 ];
 
 const allFields = [
@@ -77,7 +77,7 @@ class GenerateGroupExpression extends React.Component {
               float: "right"
             }}
           >
-            添加分组
+            Add Group
           </Button>
           <Switch
             checkedChildren="AND"
@@ -191,7 +191,7 @@ class GenerateSingleExpression extends React.Component {
           }
         />
         <Input 
-          placeholder="请输入内容" 
+          placeholder="value" 
           data-order={this.props.order}
           data-index={this.props.index}
           onChange={this.handleInputChange}
@@ -216,7 +216,7 @@ class GenerateSingleExpression extends React.Component {
               margin: "0 0 0 6px"
             }}
           >
-            删除
+            Delete
           </Button>
         </div>
         <div>
@@ -285,7 +285,7 @@ class SelectList extends React.Component {
             document.getElementById("tree-id")
           }
           autoClearSearchValue={false}
-          placeholder="请选择..."
+          placeholder="please select..."
           filterOption={(input, option) => {
             return (
               option.props.children
@@ -347,7 +347,7 @@ class OperatorSelectList extends React.Component {
           }
           defaultValue={this.state.defaultValue}
           style={{ width: 100, margin: "0 6px 0 6px" }}
-          placeholder="请选择运算符"
+          placeholder="please select"
           optionFilterProp="children"
           onChange={this.handleChange}
           getPopupContainer={() =>

@@ -1,8 +1,8 @@
 {
   "name": "react-sql-query-builder",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "React SQL Query Builder",
-  "main": "lib/BoilerplateComponent.js",
+  "main": "lib/index.js",
   "license": "MIT",
   "keywords": [
     "react",

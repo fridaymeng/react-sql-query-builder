@@ -434,6 +434,9 @@ class App extends Component{
       });
     });
   }
+  componentDidUpdate(){
+    this.props.onChangeFunc && this.props.onChangeFunc(this.state.group);
+  }
   componentWillUnmount() {
     this.setState = () => {
       return;

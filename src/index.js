@@ -430,6 +430,7 @@ class App extends Component{
           $this.child.undateString();
         }
       });
+      $this.props.onChangeFunc && $this.props.onChangeFunc($this.state.group);
     });
   }
   componentWillUnmount() {
@@ -496,6 +497,7 @@ class App extends Component{
       $dom.push(
         <GenerateGroupExpression
           key={Math.random()}
+          onChangeFunc={this.props.onChangeFunc}
           index={item.id}
           parentIndex={item.parentId !== undefined ? item.parentId : "false"}
           order={index}

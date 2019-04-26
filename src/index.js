@@ -426,11 +426,12 @@ class App extends Component{
           $this.setState({
             group : $this.state.group,
             refresh : false
+          },function(){
+            $this.props.onChangeFunc && $this.props.onChangeFunc($this.state.group);
           });
           $this.child.undateString();
         }
       });
-      $this.props.onChangeFunc && $this.props.onChangeFunc($this.state.group);
     });
   }
   componentWillUnmount() {

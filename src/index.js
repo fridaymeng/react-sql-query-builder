@@ -366,7 +366,7 @@ class App extends Component {
               refresh: false
             },
             function() {
-              $this.props.onChangeFunc && $this.props.onChangeFunc($this.state.group)
+              $this.props.onChange && $this.props.onChange($this.state.group)
             }
           )
           $this.child.undateString()
@@ -375,7 +375,7 @@ class App extends Component {
     })
   }
   componentDidUpdate() {
-    this.props.onChangeFunc && this.props.onChangeFunc(this.state.group)
+    this.props.onChange && this.props.onChange(this.state.group)
   }
   componentWillUnmount() {
     this.setState = () => {
@@ -443,7 +443,7 @@ class App extends Component {
         $dom.push(
           <GenerateGroupExpression
             key={Math.random()}
-            onChangeFunc={this.props.onChangeFunc}
+            onChange={this.props.onChange}
             index={item.id}
             parentIndex={item.parentId !== undefined ? item.parentId : 'false'}
             order={index}

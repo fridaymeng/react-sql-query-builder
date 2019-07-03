@@ -6,9 +6,20 @@ import { Select, Button, Switch, Input } from 'antd'
 
 const Option = Select.Option
 
-const operatorExpression = [{ name: 'equal', id: 1, symbol: '=' }, { name: 'not equal', id: 2, symbol: '!=' }, { name: 'is not null', id: 3, symbol: 'is not null' }, { name: 'is null', id: 4, symbol: 'is null' }]
+const operatorExpression = [
+  { name: 'equal', id: 1, symbol: '=' },
+  { name: 'not equal', id: 2, symbol: '!=' },
+  { name: 'is not null', id: 3, symbol: 'is not null' },
+  { name: 'is null', id: 4, symbol: 'is null' },
+  { name: 'in', id: 5, symbol: 'in' },
+  { name: 'not in', id: 6, symbol: 'not in' },
+  { name: 'less', id: 7, symbol: 'less' },
+  { name: 'less or equal', id: 8, symbol: 'less or equal' },
+  { name: 'greater', id: 9, symbol: 'greater' },
+  { name: 'greater or equal', id: 10, symbol: 'greater or equal' }
+]
 
-const allFields = [{ name: 'id', id: uuid(8, 16) }, { name: 'user', id: uuid(8, 16) }, { name: 'age', id: uuid(8, 16) }, { name: 'nation', id: uuid(8, 16) }]
+const allFields = [{ name: 'ID', id: uuid(8, 16) }, { name: 'User', id: uuid(8, 16) }, { name: 'Age', id: uuid(8, 16) }, { name: 'Nation', id: uuid(8, 16) }, { name: 'Datepicker', id: uuid(8, 16) }, { name: 'SelectList', id: uuid(8, 16) }]
 
 class GenerateGroupExpression extends React.Component {
   constructor(props) {

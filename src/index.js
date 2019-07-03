@@ -302,7 +302,7 @@ class OperatorSelectList extends React.Component {
         <Select
           className={this.props.data.operationClassName ? this.props.data.operationClassName : ''}
           defaultValue={this.state.defaultValue}
-          style={{ width: 100, margin: '0 6px 0 6px' }}
+          style={{ width: 200, margin: '0 6px 0 6px' }}
           placeholder="please select"
           optionFilterProp="children"
           onChange={this.handleChange}

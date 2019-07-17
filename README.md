@@ -10,6 +10,4 @@
 
 > `<Querybuilder onChange={(data) => {console.log(data)}} />;`
 
-- get data by onChange \*
-
 <img src="assets/img/demo.png">

@@ -9,8 +9,7 @@
 ###
 
 > `<Querybuilder onChange={(data) => {console.log(data)}} />;`
-> /_
-> get data by onChange
-> _/
+
+<!-- get data by onChange -->
 
 <img src="assets/img/demo.png">

@@ -1,6 +1,6 @@
 ## How to use?
 
-> cnpm i react-sql-query-builder
+> npm i react-sql-query-builder
 
 ###
 
@@ -8,6 +8,6 @@
 
 ###
 
-> `<Querybuilder onChange={this.onChange} />;`//get data by onChange
+> `<Querybuilder onChange={(data) => {console.log(data)}} />;`//get data by onChange
 
 <img src="assets/img/demo.png">

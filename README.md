@@ -1,4 +1,4 @@
-How to use:
+## How to use:
 
 ```js
 npm i react-sql-query-builder

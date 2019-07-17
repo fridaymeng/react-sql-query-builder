@@ -1,6 +1,6 @@
 ## How to use:
 
-```js
+```bash
 npm i react-sql-query-builder
 ```
 

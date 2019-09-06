@@ -12,4 +12,4 @@ import Querybuilder from 'react-sql-query-builder'
 <Querybuilder onChange={(data) => {console.log(data)}} />;`
 ```
 
-<img src="assets/img/demo.png">
+<img src="assets/img/tree.jpg">

@@ -623,5 +623,5 @@ class StringFormat extends Component {
 
 export default App
 
-//how to use
-//import a from "react-sql-query-builder";
+// how to use
+// import a from "react-sql-query-builder";

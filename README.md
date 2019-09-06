@@ -1,4 +1,4 @@
-## How to use:
+## How to use
 
 ```bash
 npm i react-sql-query-builder

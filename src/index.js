@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { uuid } from '../utils/uuid'
 import EventEmitter from '../utils/events'
 import './index.scss'
-import { Select, Button, Switch, Input } from 'antd'
+import { Select, Button, Switch, Input, DatePicker } from 'antd'
+import moment from 'moment';
 
 const Option = Select.Option
 
@@ -94,10 +95,14 @@ class GenerateSingleExpression extends React.Component {
       leftFields: this.props.allFields,
       rightFields: this.props.data.rightFields || [],
       operatorId: this.props.data.operatorId,
-      refresh: true
+      refresh: true,
+      operatorClassName: 'hide',
+      rightClassName: 'hide',
+      leftId: '',
     }
     this.selectExpression = this.selectExpression.bind(this)
     this.handleInputChange = this.handleInputChange.bind(this)
+    this.selectFields = this.selectFields.bind(this)
   }
   componentWillMount() {
     if (this.props.data.operatorId === 3 || this.props.data.operatorId === 4) {
@@ -120,20 +125,29 @@ class GenerateSingleExpression extends React.Component {
     }
     this.setState({
       rightClassName: className,
-      operatorId: data.id
+      operatorId: data.id,
+      rightDefaultValue : null
     })
   }
-  handleInputChange(e) {
-    const target = e.target
-    const data = target.dataset
-    EventEmitter.trigger('recordData', {
-      type: 'right',
-      value: target.value,
-      order: data.order,
-      index: data.index,
-      groupIndex: this.props.groupIndex,
-      parentIndex: this.props.parentIndex
+  selectFields(data){
+    const params = {
+      operatorClassName : "",
+      rightClassName : "hide",
+      rightValueType : "Input",
+      leftId : data.id,
+      operatorId: ''
+    }
+    if(data.type === "DatePicker"){
+      params.rightValueType = "DatePicker"
+    }
+    this.setState(params)
+  }
+  handleInputChange(params) {
+    params.type = "right"
+    this.setState({
+      rightDefaultValue : params.value
     })
+    EventEmitter.trigger('recordData', params)
   }
   render() {
     return (
@@ -145,6 +159,7 @@ class GenerateSingleExpression extends React.Component {
           parentIndex={this.props.parentIndex}
           order={this.props.order}
           index={this.props.index}
+          selectFields={this.selectFields}
           type="left"
           allFields={this.state.leftFields}
           search="true"
@@ -159,9 +174,35 @@ class GenerateSingleExpression extends React.Component {
           parentIndex={this.props.parentIndex}
           order={this.props.order}
           selectExpression={this.selectExpression}
-          className={this.props.data.operatorClassName ? this.props.data.operatorClassName : ''}
+          className={this.state.operatorClassName}
         />
-        <Input placeholder="value" data-order={this.props.order} data-index={this.props.index} onChange={this.handleInputChange} type="right" defaultValue={this.props.data.rightValue} className={this.state.rightClassName ? this.state.rightClassName : ''} style={{ width: 180 }} />
+        {this.state.rightValueType === 'Input' ? <Input 
+          placeholder="value" 
+          data-order={this.props.order} 
+          data-index={this.props.index} 
+          onChange={(e) => this.handleInputChange({
+            order : this.props.order,
+            index : this.props.index,
+            groupIndex: this.props.groupIndex,
+            parentIndex: this.props.parentIndex,
+            value : e.target.value
+          })} 
+          type="right" 
+          value={this.state.rightDefaultValue} 
+          className={this.state.rightClassName ? this.state.rightClassName : ''} 
+          style={{ width: 180, 'verticalAlign': 'bottom' }} 
+        /> : ""}
+        {this.state.rightValueType === 'DatePicker' ? <DatePicker 
+          value={this.state.rightDefaultValue ? moment(this.state.rightDefaultValue) : null} 
+          onChange={(date, dateString) => this.handleInputChange({
+            order : this.props.order,
+            index : this.props.index,
+            groupIndex: this.props.groupIndex,
+            parentIndex: this.props.parentIndex,
+            value : dateString
+          })} 
+          className={this.state.rightClassName ? this.state.rightClassName : ''} 
+        /> : '' }
         <div>
           <Button
             icon="close-circle"
@@ -222,14 +263,16 @@ class SelectList extends React.Component {
     })
   }
   handleChange = index => {
-    EventEmitter.trigger('recordData', {
+    this.props.selectFields(this.state.optionsArr[index])
+    const params = {
       type: this.props.type,
       data: this.state.optionsArr[index],
       index: this.props.index,
       order: this.props.order,
       groupIndex: this.props.groupIndex,
       parentIndex: this.props.parentIndex
-    })
+    }
+    EventEmitter.trigger('recordData', params)
   }
   render() {
     return (
@@ -262,7 +305,8 @@ class OperatorSelectList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      expressions: operatorExpression
+      expressions: operatorExpression,
+      defaultValue : this.props.operatorDefaultValue
     }
   }
   componentWillMount() {
@@ -293,8 +337,8 @@ class OperatorSelectList extends React.Component {
     return (
       <div>
         <Select
-          className={this.props.data.operationClassName ? this.props.data.operationClassName : ''}
-          defaultValue={this.state.defaultValue}
+          className={this.props.className}
+          value={this.state.defaultValue}
           style={{ width: 200, margin: '0 6px 0 6px' }}
           placeholder="please select"
           optionFilterProp="children"

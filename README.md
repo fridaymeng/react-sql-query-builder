@@ -20,8 +20,8 @@ import Querybuilder from 'react-sql-query-builder'
         { name: 'User', id: 2 }, 
         { name: 'Age', id: 3 }, 
         { name: 'Nation', id: 4 }, 
-        { name: 'Datepicker', id: 5 }, 
-        { name: 'SelectList', id: 6 }];
+        { name: 'Datepicker', id: 5 ,type : "DatePicker"}
+  ];
   /**
    * Optional operators
    * * id is not must

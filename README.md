@@ -1,3 +1,5 @@
+An SQL Query Builder Based on React.
+
 ## How to use
 
 ```bash

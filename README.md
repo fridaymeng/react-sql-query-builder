@@ -1,3 +1,8 @@
+<div align="center">
+
+An SQL Query Builder Based on React.
+
+</div>
 ## How to use
 
 ```bash

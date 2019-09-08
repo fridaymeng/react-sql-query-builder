@@ -1,6 +1,6 @@
 {
   "name": "react-sql-query-builder",
-  "version": "1.0.24",
+  "version": "1.1.0",
   "description": "React SQL Query Builder",
   "main": "lib/index.js",
   "license": "MIT",

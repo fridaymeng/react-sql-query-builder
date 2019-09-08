@@ -3,9 +3,9 @@ import { uuid } from '../utils/uuid'
 import EventEmitter from '../utils/events'
 import './index.scss'
 import { Select, Button, Switch, Input, DatePicker } from 'antd'
-import moment from 'moment';
 
 const Option = Select.Option
+const { MonthPicker, RangePicker } = DatePicker;
 
 let operatorExpression = []
 
@@ -126,27 +126,33 @@ class GenerateSingleExpression extends React.Component {
     this.setState({
       rightClassName: className,
       operatorId: data.id,
+      rightValueType: undefined,
       rightDefaultValue : null
+    },() => {
+      /* refresh right */
+      this.setState({
+        rightValueType: this.state.rightValType
+      })
     })
   }
   selectFields(data){
     const params = {
       operatorClassName : "",
       rightClassName : "hide",
-      rightValueType : "Input",
+      rightValueType : undefined,
+      rightValType : "Input",
       leftId : data.id,
-      operatorId: ''
+      operatorId: undefined
     }
-    if(data.type === "DatePicker"){
-      params.rightValueType = "DatePicker"
+    if(data.type !== undefined){
+      params.rightValType = data.type
+      params.rightDefaultValue = null
     }
     this.setState(params)
+    EventEmitter.trigger('recordData', params)
   }
   handleInputChange(params) {
     params.type = "right"
-    this.setState({
-      rightDefaultValue : params.value
-    })
     EventEmitter.trigger('recordData', params)
   }
   render() {
@@ -176,6 +182,7 @@ class GenerateSingleExpression extends React.Component {
           selectExpression={this.selectExpression}
           className={this.state.operatorClassName}
         />
+        {/* Input */}
         {this.state.rightValueType === 'Input' ? <Input 
           placeholder="value" 
           data-order={this.props.order} 
@@ -187,13 +194,34 @@ class GenerateSingleExpression extends React.Component {
             parentIndex: this.props.parentIndex,
             value : e.target.value
           })} 
-          type="right" 
-          value={this.state.rightDefaultValue} 
+          type="right"
           className={this.state.rightClassName ? this.state.rightClassName : ''} 
           style={{ width: 180, 'verticalAlign': 'bottom' }} 
         /> : ""}
+        {/* DatePicker */}
         {this.state.rightValueType === 'DatePicker' ? <DatePicker 
-          value={this.state.rightDefaultValue ? moment(this.state.rightDefaultValue) : null} 
+          onChange={(date, dateString) => this.handleInputChange({
+            order : this.props.order,
+            index : this.props.index,
+            groupIndex: this.props.groupIndex,
+            parentIndex: this.props.parentIndex,
+            value : dateString
+          })} 
+          className={this.state.rightClassName ? this.state.rightClassName : ''} 
+        /> : '' }
+        {/* MonthPicker */}
+        {this.state.rightValueType === 'MonthPicker' ? <MonthPicker  
+          onChange={(date, dateString) => this.handleInputChange({
+            order : this.props.order,
+            index : this.props.index,
+            groupIndex: this.props.groupIndex,
+            parentIndex: this.props.parentIndex,
+            value : dateString
+          })} 
+          className={this.state.rightClassName ? this.state.rightClassName : ''} 
+        /> : '' }
+        {/* RangePicker */}
+        {this.state.rightValueType === 'RangePicker' ? <RangePicker 
           onChange={(date, dateString) => this.handleInputChange({
             order : this.props.order,
             index : this.props.index,
@@ -404,6 +432,8 @@ class App extends Component {
               break
             case 'left':
               $obj.leftId = params.data.id
+              delete $obj.rightValue
+              delete $obj.operatorId
               break
             case 'right':
               $obj.rightValue = params.value

@@ -13,20 +13,24 @@ import Querybuilder from 'react-sql-query-builder'
 ```js
   /**
    * Optional fields
-   * id is not must
     */
+  const rightFields = [{ name: "OtherId", id: 1 }, { name: "OtherUser", id: 2 }];
   const fields = [
-        { name: 'ID', id : 1},
-        { name: 'User', id: 2 }, 
-        { name: 'Age', id: 3 }, 
-        { name: 'Nation', id: 4 }, 
-        { name: 'Date Picker', id: 5 ,type : "DatePicker"}, 
-        { name: 'Month Picker', id: 6 ,type : "MonthPicker"}, 
-        { name: 'Range Picker', id: 7 ,type : "RangePicker"}
+    { name: "ID", id: 1 },
+    { name: "User", id: 2 },
+    {
+      name: "Age",
+      id: 3,
+      type: "SelectList",
+      rightFields: rightFields
+    },
+    { name: "Nation", id: 4 },
+    { name: "Date Picker", id: 5, type: "DatePicker" },
+    { name: "Month Picker", id: 6, type: "MonthPicker" },
+    { name: "Range Picker", id: 7, type: "RangePicker" }
   ];
   /**
    * Optional operators
-   * * id is not must
     */
   const operators = [
         { name: 'equal', id: 1, symbol: '=' },
@@ -44,7 +48,7 @@ import Querybuilder from 'react-sql-query-builder'
     fields={fields} 
     operators={operators} 
     onChange={(data) => {console.log(data)}} 
-  />;`
+  />
 ```
 
 <img src="assets/img/tree.jpg">

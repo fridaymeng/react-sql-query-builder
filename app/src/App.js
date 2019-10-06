@@ -4,12 +4,17 @@ import Querybuilder from "./tree";
 
 /**
  * Optional fields
- * id is not must
  */
+const rightFields = [{ name: "OtherId", id: 1 }, { name: "OtherUser", id: 2 }];
 const fields = [
   { name: "ID", id: 1 },
   { name: "User", id: 2 },
-  { name: "Age", id: 3, rightFields: [1, 2, 3, 4, 5, 6, 7, 8, 9] },
+  {
+    name: "Age",
+    id: 3,
+    type: "SelectList",
+    rightFields: rightFields
+  },
   { name: "Nation", id: 4 },
   { name: "Date Picker", id: 5, type: "DatePicker" },
   { name: "Month Picker", id: 6, type: "MonthPicker" },
@@ -17,13 +22,12 @@ const fields = [
 ];
 /**
  * Optional operators
- * * id is not must
  */
 const operators = [
   { name: "equal", id: 1, symbol: "=" },
   { name: "not equal", id: 2, symbol: "!=" },
-  { name: "is not null", id: 3, symbol: "is not null" },
-  { name: "is null", id: 4, symbol: "is null" },
+  { name: "is not null", id: 3, symbol: "is not null", rightFields: false },
+  { name: "is null", id: 4, symbol: "is null", rightFields: false },
   { name: "in", id: 5, symbol: "in" },
   { name: "not in", id: 6, symbol: "not in" },
   { name: "less", id: 7, symbol: "less" },

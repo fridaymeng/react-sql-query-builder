@@ -116,7 +116,7 @@ class GenerateSingleExpression extends React.Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.selectFields = this.selectFields.bind(this);
   }
-  componentWillMount() {
+  componentDidMount() {
     let $rightDefaultValue = this.props.data.rightValue;
     this.setState({
       operatorClassName: this.props.data.operatorClassName,
@@ -132,23 +132,15 @@ class GenerateSingleExpression extends React.Component {
   }
   selectExpression(data) {
     let className = "";
-    if (data.symbol === "is not null" || data.symbol === "is null") {
+    if (data.rightFields === false) {
       className = "hide";
     }
-    this.setState(
-      {
-        rightClassName: className,
-        operatorId: data.id,
-        rightValueType: undefined,
-        rightDefaultValue: null
-      },
-      () => {
-        /* refresh right */
-        this.setState({
-          rightValueType: this.state.rightValType
-        });
-      }
-    );
+    this.setState({
+      rightClassName: className,
+      operatorId: data.id,
+      rightValueType: this.state.rightValType || this.props.data.rightValType,
+      rightDefaultValue: null
+    });
   }
   selectFields(data) {
     const params = {
@@ -172,6 +164,14 @@ class GenerateSingleExpression extends React.Component {
     });
     EventEmitter.trigger("recordData", params);
   }
+  handleRightFiledsChange = val => {
+    EventEmitter.trigger("recordData", {
+      type: "right",
+      rightFiledsId: val,
+      index: this.props.index,
+      groupIndex: this.props.groupIndex
+    });
+  };
   render() {
     return (
       <div className="selectListLi">
@@ -221,6 +221,24 @@ class GenerateSingleExpression extends React.Component {
             }
             style={{ width: 180, verticalAlign: "bottom" }}
           />
+        ) : (
+          ""
+        )}
+        {/* SelectList */}
+        {this.state.rightValueType === "SelectList" ? (
+          <div>
+            <Select
+              onChange={this.handleRightFiledsChange}
+              placeholder="please select..."
+              style={{ width: 200 }}
+            >
+              {this.props.data.rightFields.map((item, index) => (
+                <Option key={index} value={index}>
+                  {item.name}
+                </Option>
+              ))}
+            </Select>
+          </div>
         ) : (
           ""
         )}
@@ -330,27 +348,27 @@ class SelectList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      value: undefined,
+      defaultValue: undefined,
       optionsArr: this.props.allFields,
       className: "class-" + uuid(10, 16) + " " + this.props.className
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     this.props.allFields.forEach(item => {
-      if (typeof item.id === "undefined") {
-        item.id = uuid(8, 16);
-      }
       if (item.id === this.props.data.leftId) {
         this.setState({
-          defaultValue: item.name
+          value: item.name
         });
       }
     });
   }
   handleChange = index => {
-    this.props.selectFields(this.state.optionsArr[index]);
+    const item = this.state.optionsArr[index];
+    this.props.selectFields(item);
     const params = {
       type: this.props.type,
-      data: this.state.optionsArr[index],
+      data: item,
       index: this.props.index,
       order: this.props.order,
       groupIndex: this.props.groupIndex,
@@ -364,6 +382,7 @@ class SelectList extends React.Component {
         <Select
           className={this.state.className}
           defaultValue={this.state.defaultValue}
+          value={this.state.value}
           showSearch={this.props.search === "true" ? true : false}
           style={{ width: 200 }}
           onChange={this.handleChange}
@@ -380,7 +399,7 @@ class SelectList extends React.Component {
         >
           {this.state.optionsArr &&
             this.state.optionsArr.map((item, index) => (
-              <Option key={Math.random()} value={index}>
+              <Option key={index} value={index}>
                 {item.name}
               </Option>
             ))}
@@ -397,7 +416,7 @@ class OperatorSelectList extends React.Component {
       defaultValue: this.props.operatorDefaultValue
     };
   }
-  componentWillMount() {
+  componentDidMount() {
     operatorExpression.forEach(item => {
       if (typeof item.id === "undefined") {
         item.id = uuid(8, 16);
@@ -471,11 +490,9 @@ class App extends Component {
     this.delGroupExpression = this.delGroupExpression.bind(this);
     this.findGroup = this.findGroup.bind(this);
   }
-  componentWillMount() {
-    operatorExpression = this.props.operators || [];
-  }
   componentDidMount() {
     const $this = this;
+    operatorExpression = $this.props.operators || [];
     /* 注册recordData */
     EventEmitter.off("recordData");
     EventEmitter.on("recordData", function(params) {
@@ -491,22 +508,32 @@ class App extends Component {
               break;
             case "operator":
               $obj.operatorId = params.data.id;
-              if (params.data.id === 3 || params.data.id === 4) {
+              if (params.data.rightFields === false) {
                 $obj.rightClassName = "hide";
+                delete $obj.rightValType;
+                delete $obj.rightClassName;
+                delete $obj.operatorClassName;
               } else {
                 $obj.rightClassName = "";
+                $obj.rightValType = params.rightValType;
               }
-              $obj.rightValType = params.rightValType;
               delete $obj.rightValue;
               break;
             case "left":
               $obj.leftId = params.data.id;
               $obj.operatorClassName = "";
+              if (params.data.rightFields) {
+                $obj.rightFields = params.data.rightFields;
+              }
               delete $obj.rightValue;
               delete $obj.operatorId;
               break;
             case "right":
-              $obj.rightValue = params.value;
+              if (params.rightFiledsId) {
+                $obj.rightFiledsId = params.rightFiledsId;
+              } else if (params.value) {
+                $obj.rightValue = params.value;
+              }
               break;
             default:
           }

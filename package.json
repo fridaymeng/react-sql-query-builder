@@ -1,6 +1,6 @@
 {
   "name": "react-sql-query-builder",
-  "version": "1.2.2",
+  "version": "1.2.4",
   "description": "React SQL Query Builder",
   "main": "lib/index.js",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "antd": "^3.16.4",
+    "antd": "^3.23.6",
     "babel-core": "^6.21.0",
     "babel-loader": "^7.1.5",
     "babel-preset-env": "^1.6.1",

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { uuid } from "../utils/uuid";
-import EventEmitter from "../utils/events";
+import { uuid } from "./utils/uuid";
+import EventEmitter from "./utils/events";
 import "antd/dist/antd.css";
 import "./index.scss";
 import { Select, Button, Switch, Input, DatePicker } from "antd";

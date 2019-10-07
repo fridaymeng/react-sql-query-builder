@@ -1,6 +1,6 @@
 import React from "react";
-import Querybuilder from "./tree";
-// import Querybuilder from "react-sql-query-builder";
+// import Querybuilder from "./tree";
+import Querybuilder from "react-sql-query-builder";
 
 /**
  * Optional fields

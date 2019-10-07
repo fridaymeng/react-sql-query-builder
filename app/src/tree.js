@@ -144,11 +144,15 @@ class GenerateSingleExpression extends React.Component {
   }
   selectFields(data) {
     const params = {
+      data: data,
+      type: "left",
       rightClassName: "hide",
       rightValueType: undefined,
       rightValType: "Input",
       leftId: data.id,
-      operatorId: undefined
+      operatorId: undefined,
+      index: this.props.index,
+      groupIndex: this.props.groupIndex
     };
     if (data.type !== undefined) {
       params.rightValType = data.type;
@@ -366,15 +370,6 @@ class SelectList extends React.Component {
   handleChange = index => {
     const item = this.state.optionsArr[index];
     this.props.selectFields(item);
-    const params = {
-      type: this.props.type,
-      data: item,
-      index: this.props.index,
-      order: this.props.order,
-      groupIndex: this.props.groupIndex,
-      parentIndex: this.props.parentIndex
-    };
-    EventEmitter.trigger("recordData", params);
   };
   render() {
     return (
@@ -510,17 +505,14 @@ class App extends Component {
               $obj.operatorId = params.data.id;
               if (params.data.rightFields === false) {
                 $obj.rightClassName = "hide";
-                delete $obj.rightValType;
-                delete $obj.rightClassName;
-                delete $obj.operatorClassName;
               } else {
                 $obj.rightClassName = "";
-                $obj.rightValType = params.rightValType;
               }
               delete $obj.rightValue;
               break;
             case "left":
               $obj.leftId = params.data.id;
+              $obj.rightValType = params.rightValType;
               $obj.operatorClassName = "";
               if (params.data.rightFields) {
                 $obj.rightFields = params.data.rightFields;

@@ -7,7 +7,7 @@
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-scripts": "3.2.0",
-    "react-sql-query-builder": "^1.2.4"
+    "react-sql-query-builder": "^1.2.6"
   },
   "scripts": {
     "start": "react-scripts start",

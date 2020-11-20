@@ -50,5 +50,4 @@ import Querybuilder from 'react-sql-query-builder'
     onChange={(data) => {console.log(data)}} 
   />
 ```
-
-<img src="assets/img/tree.jpg">
+![example](/assets/img/tree.jpg)

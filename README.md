@@ -1,9 +1,13 @@
 An SQL Query Builder Based on React.
-
-## How to use
+![example](/assets/img/tree.jpg)
+## How To Use
 
 ```bash
-npm i react-sql-query-builder
+npm install react-sql-query-builder
+```
+or
+```bash
+yarn add react-sql-query-builder
 ```
 
 ```js
@@ -50,4 +54,3 @@ import Querybuilder from 'react-sql-query-builder'
     onChange={(data) => {console.log(data)}} 
   />
 ```
-![example](/assets/img/tree.jpg)

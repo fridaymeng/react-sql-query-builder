@@ -476,6 +476,7 @@ class App extends Component {
         }
       ],
       allFields: this.props.fields,
+      console: this.props.console || false,
       refresh: true
     };
     this.count = 0;
@@ -759,11 +760,11 @@ class App extends Component {
       <div className="tree-wrap" id="tree-id">
         <div className="selectGroupWrap">
           {this.renderGroup({ data: this.state.group })}
-          <StringFormat
+          {this.state.console ? <StringFormat
             key={Math.random()}
             onRef={this.onRef}
             group={this.state.group}
-          />
+          /> : ''}
         </div>
       </div>
     );
@@ -786,7 +787,7 @@ class StringFormat extends Component {
   render() {
     return (
       <pre className="language-bash">
-        {JSON.stringify(this.props.group, null, 2)}
+        {this.props.group}
       </pre>
     );
   }

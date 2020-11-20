@@ -539,7 +539,9 @@ class App extends Component {
               $this.props.onChange && $this.props.onChange($this.state.group);
             }
           );
-          $this.child.undateString();
+          if ($this.child) {
+            $this.child.undateString();
+          }
         }
       });
     });

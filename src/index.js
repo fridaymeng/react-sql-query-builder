@@ -793,7 +793,7 @@ class StringFormat extends Component {
   render() {
     return (
       <pre className="language-bash">
-        {this.props.group}
+        {JSON.stringify(this.props.group, null, 2)}
       </pre>
     );
   }

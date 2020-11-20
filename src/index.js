@@ -762,11 +762,11 @@ class App extends Component {
       <div className="tree-wrap" id="tree-id">
         <div className="selectGroupWrap">
           {this.renderGroup({ data: this.state.group })}
-          {this.state.console ? <StringFormat
+          {this.state.console ? (<StringFormat
             key={Math.random()}
             onRef={this.onRef}
             group={this.state.group}
-          /> : ''}
+          />) : ('')}
         </div>
       </div>
     );

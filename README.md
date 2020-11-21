@@ -20,7 +20,7 @@ import Querybuilder from 'react-sql-query-builder'
     */
   const rightFields = [{ name: "OtherId", id: 1 }, { name: "OtherUser", id: 2 }];
   const fields = [
-    { name: "ID", id: 1 },
+    { name: "ID", id: 119 },
     { name: "User", id: 2 },
     {
       name: "Age",

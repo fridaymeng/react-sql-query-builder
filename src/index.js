@@ -1,14 +1,22 @@
+// npm run build
+// npm publish
+
 import React, { Component } from "react";
 import { uuid } from "../utils/uuid";
 import EventEmitter from "../utils/events";
 import "antd/dist/antd.css";
 import "./index.scss";
+import moment from 'moment';
 import { Select, Button, Switch, Input, DatePicker } from "antd";
+import { CloseCircleOutlined, PlusOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 const Option = Select.Option;
 const { MonthPicker, RangePicker } = DatePicker;
 
 let operatorExpression = [];
+
+const dateFormat = 'YYYY/MM/DD';
+const monthFormat = 'YYYY/MM';
 
 class GenerateGroupExpression extends React.Component {
   constructor(props) {
@@ -42,7 +50,7 @@ class GenerateGroupExpression extends React.Component {
         >
           <Button
             type="danger"
-            icon="close"
+            icon={<CloseCircleOutlined />}
             data-index={this.props.index}
             data-parent-index={this.props.parentIndex}
             data-order={this.props.order}
@@ -56,7 +64,7 @@ class GenerateGroupExpression extends React.Component {
             Delete Group
           </Button>
           <Button
-            icon="plus"
+            icon={<PlusOutlined />}
             data-index={this.props.index}
             data-parent-index={this.props.parentIndex}
             data-order={this.props.order}
@@ -216,7 +224,7 @@ class GenerateSingleExpression extends React.Component {
                 index: this.props.index,
                 groupIndex: this.props.groupIndex,
                 parentIndex: this.props.parentIndex,
-                value: e.target.value
+                value: e.currentTarget.value
               })
             }
             type="right"
@@ -248,64 +256,73 @@ class GenerateSingleExpression extends React.Component {
         )}
         {/* DatePicker */}
         {this.state.rightValueType === "DatePicker" ? (
-          <DatePicker
-            onChange={(date, dateString) =>
-              this.handleInputChange({
-                order: this.props.order,
-                index: this.props.index,
-                groupIndex: this.props.groupIndex,
-                parentIndex: this.props.parentIndex,
-                value: dateString
-              })
-            }
-            className={
-              this.state.rightClassName ? this.state.rightClassName : ""
-            }
-          />
+          <div>
+            <DatePicker
+              onChange={(date, dateString) =>
+                this.handleInputChange({
+                  order: this.props.order,
+                  index: this.props.index,
+                  groupIndex: this.props.groupIndex,
+                  parentIndex: this.props.parentIndex,
+                  value: dateString
+                })
+              }
+              value={this.state.rightDefaultValue ? moment(this.state.rightDefaultValue, dateFormat) : undefined}
+              className={
+                this.state.rightClassName ? this.state.rightClassName : ""
+              }
+            />
+          </div>
         ) : (
           ""
         )}
         {/* MonthPicker */}
         {this.state.rightValueType === "MonthPicker" ? (
-          <MonthPicker
-            onChange={(date, dateString) =>
-              this.handleInputChange({
-                order: this.props.order,
-                index: this.props.index,
-                groupIndex: this.props.groupIndex,
-                parentIndex: this.props.parentIndex,
-                value: dateString
-              })
-            }
-            className={
-              this.state.rightClassName ? this.state.rightClassName : ""
-            }
-          />
+          <div>
+            <MonthPicker
+              onChange={(date, dateString) =>
+                this.handleInputChange({
+                  order: this.props.order,
+                  index: this.props.index,
+                  groupIndex: this.props.groupIndex,
+                  parentIndex: this.props.parentIndex,
+                  value: dateString
+                })
+              }
+              value={this.state.rightDefaultValue ? moment(this.state.rightDefaultValue, monthFormat) : undefined}
+              className={
+                this.state.rightClassName ? this.state.rightClassName : ""
+              }
+            />
+          </div>
         ) : (
           ""
         )}
         {/* RangePicker */}
         {this.state.rightValueType === "RangePicker" ? (
-          <RangePicker
-            onChange={(date, dateString) =>
-              this.handleInputChange({
-                order: this.props.order,
-                index: this.props.index,
-                groupIndex: this.props.groupIndex,
-                parentIndex: this.props.parentIndex,
-                value: dateString
-              })
-            }
-            className={
-              this.state.rightClassName ? this.state.rightClassName : ""
-            }
-          />
+          <div>
+            <RangePicker
+              onChange={(date, dateString) =>
+                this.handleInputChange({
+                  order: this.props.order,
+                  index: this.props.index,
+                  groupIndex: this.props.groupIndex,
+                  parentIndex: this.props.parentIndex,
+                  value: dateString
+                })
+              }
+              value={(this.state.rightDefaultValue && this.state.rightDefaultValue.length === 2) ? [moment(this.state.rightDefaultValue[0], dateFormat), moment(this.state.rightDefaultValue[1], dateFormat)] : undefined}
+              className={
+                this.state.rightClassName ? this.state.rightClassName : ""
+              }
+            />
+          </div>
         ) : (
           ""
         )}
         <div>
           <Button
-            icon="close-circle"
+            icon={<CloseCircleOutlined />}
             data-group-index={this.props.groupIndex}
             data-expression-index={this.props.index}
             data-parent-index={this.props.parentIndex}
@@ -324,7 +341,7 @@ class GenerateSingleExpression extends React.Component {
         </div>
         <div>
           <Button
-            icon="plus-circle"
+            icon={<PlusCircleOutlined />}
             data-group-index={this.props.groupIndex}
             data-expression-index={this.props.index}
             data-parent-index={this.props.parentIndex}
@@ -463,10 +480,41 @@ class OperatorSelectList extends React.Component {
   }
 }
 
+const operators = {}
+const leftNames = {}
+
+function generateExpression (data = [], sql) {
+  data.forEach((expression, expressionIndex) => {
+    if (expression.leftId) {
+      if (expressionIndex === 0) {
+        sql += leftNames[expression.leftId]
+      } else {
+        sql += " and " + leftNames[expression.leftId]
+      }
+    }
+    if (expression.operatorId) {
+      sql += " " + operators[expression.operatorId] + " "
+    }
+    if (expression.rightValue) sql += `"${expression.rightValue}"`
+  })
+  return sql + " ";
+}
+
+function generateGroup (data = []) {
+  let sql = ""
+  data.forEach(item => {
+    if (item.expressionList) sql += generateExpression(item.expressionList, sql)
+    if (item.group) sql += generateGroup (item.group, "")
+  })
+  return sql
+}
+
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      operators: {},
+      leftNames: {},
       group: [
         {
           gate: "and",
@@ -475,7 +523,7 @@ class App extends Component {
           id: 0
         }
       ],
-      allFields: this.props.fields,
+      allFields: this.props.fields || [],
       console: this.props.console || false,
       refresh: true
     };
@@ -485,10 +533,17 @@ class App extends Component {
     this.addGroupExpression = this.addGroupExpression.bind(this);
     this.delGroupExpression = this.delGroupExpression.bind(this);
     this.findGroup = this.findGroup.bind(this);
+    this.formatSQL = this.formatSQL.bind(this)
   }
   componentDidMount() {
     const $this = this;
     operatorExpression = $this.props.operators || [];
+    operatorExpression.forEach(item => {
+      operators[item.id] = item.symbol
+    })
+    this.props.fields.forEach(item => {
+      leftNames[item.id] = item.name
+    })
     /* 注册recordData */
     EventEmitter.off("recordData");
     EventEmitter.on("recordData", function(params) {
@@ -536,7 +591,7 @@ class App extends Component {
               refresh: false
             },
             function() {
-              $this.props.onChange && $this.props.onChange($this.state.group);
+              $this.props.onChange && $this.props.onChange($this.state.group, this.formatSQL($this.state.group));
             }
           );
           if ($this.child) {
@@ -547,7 +602,17 @@ class App extends Component {
     });
   }
   componentDidUpdate() {
-    this.props.onChange && this.props.onChange(this.state.group);
+    this.props.onChange && this.props.onChange(this.state.group, this.formatSQL(this.state.group));
+  }
+  formatSQL (data) {
+    let sql = ""
+    data.forEach((item) => {
+      sql += generateExpression(item.expressionList, sql)
+      if (item.group && item.group.length > 0) {
+        sql += generateGroup(item.group, "")
+      }
+    })
+    return sql
   }
   componentWillUnmount() {
     this.setState = () => {
@@ -556,7 +621,7 @@ class App extends Component {
   }
   onRef = ref => {
     this.child = ref;
-  };
+  }
   findGroup = params => {
     params.group &&
       params.group.forEach((item, index) => {
@@ -600,7 +665,7 @@ class App extends Component {
           });
         }
       });
-  };
+  }
   findExpression(list, id) {
     return list[id];
   }
@@ -647,7 +712,7 @@ class App extends Component {
   }
   /*** 添加单个表达式 ***/
   addOneExpression(obj) {
-    const $target = obj.target.dataset;
+    const $target = obj.currentTarget.dataset;
     const $index = $target.groupIndex;
     const $parentIndex = $target.parentIndex;
     const $order = $target.order;
@@ -669,7 +734,7 @@ class App extends Component {
   }
   /*** 删除单个表达式 ***/
   delOneExpression(obj) {
-    const $data = obj.target.dataset;
+    const $data = obj.currentTarget.dataset;
     const $index = Number.parseInt($data.groupIndex, 10);
     const $parentIndex = $data.parentIndex;
     const $order = $data.order;
@@ -722,7 +787,7 @@ class App extends Component {
   }
   /*** 添加单个表达式分组 ***/
   addGroupExpression(e) {
-    const $data = e.target.dataset;
+    const $data = e.currentTarget.dataset;
     const $this = this;
     if ($data.parentIndex === "false") {
       this.state.group[0].group.push({
@@ -744,7 +809,7 @@ class App extends Component {
   }
   /*** 删除单个表达式分组 ***/
   delGroupExpression(e) {
-    const $data = e.target.dataset;
+    const $data = e.currentTarget.dataset;
     this.findGroup({
       group: this.state.group,
       index: Number($data.index),
@@ -800,6 +865,3 @@ class StringFormat extends Component {
 }
 
 export default App;
-
-// how to use
-// import a from "react-sql-query-builder";

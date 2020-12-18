@@ -2,6 +2,9 @@
   padding: 12px;
   background: #fff;
   border-radius: 10px;
+  .ant-btn {
+    border-radius: 5px;
+  }
   .selectGroupWrap {
     overflow-y: auto;
     border-radius: 5px;
@@ -65,36 +68,37 @@
       /* 开关组件 */
       .ant-switch {
         background: #08c;
-        min-width: 120px !important;
+        min-width: 121px !important;
         border-radius: 5px;
         height: 32px;
         line-height: 32px;
         .ant-switch-checked:after {
           margin-left: 0px;
         }
-        .ant-switch-loading-icon,
-        &:after {
-          content: "AND";
-          text-align: center;
-          font-size: 14px !important;
-          color: #666;
-          height: 30px;
-          width: 60px;
-          top: 0px;
-          border-radius: 5px 0 0 5px;
-        }
         .ant-switch-inner {
           margin-left: 82px;
           font-size: 14px !important;
         }
-        &.ant-switch-checked {
-          &:after {
-            border-radius: 0px 5px 5px 0;
-            content: "OR";
+        .ant-switch-handle {
+          height: 30px;
+          width: 60px;
+          top: 1px;
+          &::before {
+            border-radius: 5px 0 0 5px;
+            content: "AND";
           }
+        }
+        &.ant-switch-checked {
           .ant-switch-inner {
             margin-left: 0;
             width: 60px;
+          }
+          .ant-switch-handle {
+            left: 60px;
+            &::before {
+              content: "OR";
+              border-radius: 0 5px 5px 0;
+            }
           }
         }
       }

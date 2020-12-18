@@ -8,6 +8,7 @@ module.exports = {
     filename: "index.js",
     libraryTarget: "commonjs2"
   },
+  performance: { hints: false },
   module: {
     rules: [
       {

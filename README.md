@@ -54,3 +54,7 @@ import Querybuilder from 'react-sql-query-builder'
     onChange={(data) => {console.log(data)}} 
   />
 ```
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=The-Run-Philosophy-Organization/run&type=Date)](https://star-history.com/#The-Run-Philosophy-Organization/run&Date)
+

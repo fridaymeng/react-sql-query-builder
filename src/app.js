@@ -11,12 +11,11 @@ class App extends React.Component {
     this.generateKey(this.props.rules);
     this.handleCondition = this.handleCondition.bind(this);
     this.handleAddRule = this.handleAddRule.bind(this);
-    this.addRulesById = this.addRulesById.bind(this);
     this.handleAddGroup = this.handleAddGroup.bind(this);
-    this.addGroupById = this.addGroupById.bind(this);
     this.handleDeleteGroup = this.handleDeleteGroup.bind(this);
-    this.deleteRulesById = this.deleteRulesById.bind(this);
     this.idChange = this.idChange.bind(this);
+    this.operatorChange = this.operatorChange.bind(this);
+    this.valChange = this.valChange.bind(this);
   }
   componentDidMount() {
   }
@@ -30,6 +29,7 @@ class App extends React.Component {
     this.setState({
       rules: this.state.rules
     })
+    this.props.handleChange(this.state.rules);
   }
   findRulesById (rules, id, callback) {
     rules.forEach((item, index) => {
@@ -40,20 +40,13 @@ class App extends React.Component {
     })
   }
   handleCondition (val) {
-    this.changeCondition(this.state.rules, val)
-    this.updateRules()
-  }
-  changeCondition (rules, id) {
-    this.findRulesById(rules, id, (item) => {
+    this.findRulesById(this.state.rules, val, (item) => {
       item.condition = item.condition === "AND" ? "OR" : "AND";
     })
-  }
-  handleAddRule (val) {
-    this.addRulesById(this.state.rules, val)
     this.updateRules()
   }
-  addRulesById (rules, id) {
-    this.findRulesById(rules, id, (item) => {
+  handleAddRule (val) {
+    this.findRulesById(this.state.rules, val, (item) => {
       item.rules.push({
         id: this.props.fields[0].id,
         operator: this.props.operators[0].id,
@@ -61,13 +54,10 @@ class App extends React.Component {
         key: uuid()
       })
     })
-  }
-  handleAddGroup (val) {
-    this.addGroupById(this.state.rules, val)
     this.updateRules()
   }
-  addGroupById (rules, id) {
-    this.findRulesById(rules, id, (item) => {
+  handleAddGroup (val) {
+    this.findRulesById(this.state.rules, val, (item) => {
       item.rules.push({
         condition: 'OR',
         id: Number.parseInt(Math.random() * 100000),
@@ -80,21 +70,31 @@ class App extends React.Component {
         }]
       })
     })
-  }
-  handleDeleteGroup (val) {
-    this.deleteRulesById(this.state.rules, val)
     this.updateRules()
   }
-  deleteRulesById (rules, id) {
-    this.findRulesById(rules, id, (item, itemRules, itemIndex) => {
+  handleDeleteGroup (val) {
+    this.findRulesById(this.state.rules, val, (item, itemRules, itemIndex) => {
       itemRules.splice(itemIndex, 1)
     })
+    this.updateRules()
   }
   idChange (id, val) {
     this.findRulesById(this.state.rules, id, (item) => {
       item.id = val;
     })
-    this.updateRules()
+    this.updateRules();
+  }
+  operatorChange (id, val) {
+    this.findRulesById(this.state.rules, id, (item) => {
+      item.operator = val;
+    })
+    this.updateRules();
+  }
+  valChange (id, val) {
+    this.findRulesById(this.state.rules, id, (item) => {
+      item.value = val;
+    })
+    this.updateRules();
   }
   render() {
     return <div className="wrap">
@@ -108,6 +108,8 @@ class App extends React.Component {
         handleAddGroup={this.handleAddGroup}
         handleDeleteGroup={this.handleDeleteGroup}
         idChange={this.idChange}
+        operatorChange={this.operatorChange}
+        valChange={this.valChange}
       />
     </div>;
   }

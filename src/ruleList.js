@@ -53,7 +53,7 @@ class RuleList extends React.Component {
                             </Col>
                             <Col>
                               <div className="operator-wrap">
-                                <Select className="select" value={ruleItem.operator}>
+                                <Select onChange={(val) => this.props.operatorChange(ruleItem.id, val)} className="select" value={ruleItem.operator}>
                                   {
                                     this.props.operators ? this.props.operators.map(operatorItem => (
                                       <Option key={operatorItem.id} value={operatorItem.id}>{ operatorItem.name }</Option>
@@ -62,7 +62,7 @@ class RuleList extends React.Component {
                                 </Select>
                               </div>
                             </Col>
-                            <Col ><Input value={ruleItem.value} /></Col>
+                            <Col ><Input onChange={(e) => this.props.valChange(ruleItem.id, e.target.value)} defaultValue={ruleItem.value} /></Col>
                           </Row>
                         </div> : null
                       }
@@ -77,6 +77,8 @@ class RuleList extends React.Component {
                     handleAddGroup={this.props.handleAddGroup}
                     handleDeleteGroup={this.props.handleDeleteGroup}
                     idChange={this.props.idChange}
+                    operatorChange={this.props.operatorChange}
+                    valChange={this.props.valChange}
                   /> : null }
                 </div>
               </div>

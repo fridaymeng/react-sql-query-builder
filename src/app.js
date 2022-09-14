@@ -5,7 +5,6 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      valueVisible: {},
       rules: this.props.rules
     };
     this.generateKey(this.props.rules);
@@ -16,8 +15,13 @@ class App extends React.Component {
     this.idChange = this.idChange.bind(this);
     this.operatorChange = this.operatorChange.bind(this);
     this.valChange = this.valChange.bind(this);
+    this.getOperatorVisible = this.getOperatorVisible.bind(this);
   }
   componentDidMount() {
+  }
+  getOperatorVisible (id) {
+    const arr = this.props.operators.filter(item => item.value === 'disabled').map(item => item.id)
+    return !arr.includes(id)
   }
   generateKey (rules) {
     rules.forEach(item => {
@@ -102,7 +106,7 @@ class App extends React.Component {
         rules={this.state.rules}
         fields={this.props.fields}
         operators={this.props.operators}
-        valueVisible={this.state.valueVisible}
+        getOperatorVisible={this.getOperatorVisible}
         handleCondition={this.handleCondition}
         handleAddRule={this.handleAddRule}
         handleAddGroup={this.handleAddGroup}

@@ -4,7 +4,8 @@ const { Option } = Select;
 class RuleList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
   componentDidMount() {
     // console.log(this.props)
@@ -62,7 +63,9 @@ class RuleList extends React.Component {
                                 </Select>
                               </div>
                             </Col>
-                            <Col ><Input onChange={(e) => this.props.valChange(ruleItem.id, e.target.value)} defaultValue={ruleItem.value} /></Col>
+                            {this.props.getOperatorVisible(ruleItem.operator) ? <Col>
+                              <Input onChange={(e) => this.props.valChange(ruleItem.id, e.target.value)} defaultValue={ruleItem.value} />
+                            </Col> : null}
                           </Row>
                         </div> : null
                       }
@@ -79,6 +82,7 @@ class RuleList extends React.Component {
                     idChange={this.props.idChange}
                     operatorChange={this.props.operatorChange}
                     valChange={this.props.valChange}
+                    getOperatorVisible={this.props.getOperatorVisible}
                   /> : null }
                 </div>
               </div>

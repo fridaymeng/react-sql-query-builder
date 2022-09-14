@@ -1,0 +1,71 @@
+.rules-wrap {
+  position: relative;
+  padding: 10px;
+  padding-bottom: 6px;
+  border: 1px solid #ddd;
+  background: #f3f4f5;
+  margin: 4px 0;
+  border-radius: 5px;
+  .rules-list {
+    list-style: none;
+    padding: 0 0 0 15px;
+    margin: 0;
+    & > :last-child::before {
+      border-radius: 0 0 0 4px;
+    }
+    & > :first-child::before {
+      top: -12px;
+      height: calc(50% + 14px);
+    }
+    & > ::before {
+      top: -4px;
+      border-width: 0 0 2px 2px;
+    }
+    & > ::before,& > ::after {
+      content: '';
+      position: absolute;
+      left: -16px;
+      width: 15px;
+      height: calc(50% + 4px);
+      border-color: #d9d9d9;
+      border-style: solid;
+    }
+    & > ::after {
+      top: 50%;
+      border-width: 0 0 0 2px;
+    }
+    & > :last-child::after {
+      display: none;
+    }
+    .rule-container {
+      position: relative;
+      margin: 4px 0;
+      border-radius: 5px;
+      padding: 5px;
+      border: 1px solid #eee;
+      background: rgba(255,255,255,.9);
+    }
+  }
+  .id-wrap {
+    width: 200px;
+  }
+  .operator-wrap {
+    width: 120px;
+  }
+  .value-wrap {
+    width: 300px;
+  }
+  .rules-header {
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .select  {
+    width: 100%;
+  }
+  .ctl-wrap {
+    text-align: right;
+    button {
+      margin: 0 0 0 5px;
+    }
+  }
+}

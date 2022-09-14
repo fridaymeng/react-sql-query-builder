@@ -1,12 +1,14 @@
 var path = require("path");
 
 module.exports = {
-  mode: "production", //production
+  mode: "development", //production
   entry: "./src/index.js",
   output: {
     path: path.resolve("lib"),
     filename: "index.js",
-    libraryTarget: "commonjs2"
+    library: {
+      type: "umd"
+    }
   },
   performance: { hints: false },
   module: {
@@ -17,18 +19,20 @@ module.exports = {
         use: "babel-loader"
       },
       {
-        test: /\.scss$/,
+        test: /\.less$/i,
         use: [
+          // compiles Less to CSS
+          "style-loader",
+          "css-loader",
           {
-            loader: "style-loader" // 将 JS 字符串生成为 style 节点
-          },
-          {
-            loader: "css-loader" // 将 CSS 转化成 CommonJS 模块
-          },
-          {
-            loader: "sass-loader" // 将 Sass 编译成 CSS
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                javascriptEnabled: true
+              },
+            },
           }
-        ]
+        ],
       },
       {
         test: /\.css$/,
@@ -45,5 +49,15 @@ module.exports = {
         ]
       }
     ]
+  },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'lib'),
+    },
+    watchFiles: ['src/*'],
+    hot: true,
+    // open: true,
+    compress: true,
+    port: 9001,
   }
 };

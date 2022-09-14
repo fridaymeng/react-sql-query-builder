@@ -26,4 +26,4 @@ const uuid = (len, radix) => {
   }
   return uuid.join("");
 };
-export { uuid };
+export default uuid;

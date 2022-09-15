@@ -9,7 +9,9 @@ or
 ```bash
 yarn add react-sql-query-builder
 ```
-
+```html
+<div id="wrap-tree"></div>
+```
 ```js
 import { QueryBuilder } from "react-sql-query-builder";
 const queryBuilder = new QueryBuilder();

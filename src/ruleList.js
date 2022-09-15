@@ -76,6 +76,11 @@ class RuleList extends React.Component {
                               {this.props.getFieldsType(ruleItem.id) === 'Rate' ? <Rate onChange={(val) => this.props.valChange(ruleItem.key, val)} /> : null}
                               {this.props.getFieldsType(ruleItem.id) === '' ? <Input onChange={(e) => this.props.valChange(ruleItem.key, e.target.value)} defaultValue={ruleItem.value} /> : null}
                             </Col> : null}
+                            {
+                              item.rules.length > 1 ? <Col>
+                              <Button type="danger" onClick={() => this.props.handleDeleteRule(ruleItem.key)}>Delete</Button>
+                            </Col> : null
+                            }
                           </Row>
                         </div> : null
                       }
@@ -94,6 +99,7 @@ class RuleList extends React.Component {
                     valChange={this.props.valChange}
                     getOperatorVisible={this.props.getOperatorVisible}
                     getFieldsType={this.props.getFieldsType}
+                    handleDeleteRule={this.props.handleDeleteRule}
                   /> : null }
                 </div>
               </div>

@@ -1,6 +1,6 @@
 {
   "name": "react-sql-query-builder",
-  "version": "4.0.3",
+  "version": "4.1.0",
   "description": "React SQL Query Builder",
   "main": "lib/index.js",
   "module": "lib/index.js",

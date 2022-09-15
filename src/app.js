@@ -18,6 +18,7 @@ class App extends React.Component {
     this.getOperatorVisible = this.getOperatorVisible.bind(this);
     this.getFieldsType = this.getFieldsType.bind(this);
     this.findRulesByKey = this.findRulesByKey.bind(this);
+    this.handleDeleteRule = this.handleDeleteRule.bind(this);
   }
   componentDidMount() {
   }
@@ -73,6 +74,12 @@ class App extends React.Component {
       })
     })
     this.updateRules()
+  }
+  handleDeleteRule (key) {
+    this.findRulesByKey(this.state.rules, key, (item, itemRules, itemIndex) => {
+      itemRules.splice(itemIndex, 1)
+    })
+    this.updateRules();
   }
   handleAddGroup (val) {
     this.findRulesById(this.state.rules, val, (item) => {
@@ -131,6 +138,7 @@ class App extends React.Component {
         operatorChange={this.operatorChange}
         valChange={this.valChange}
         getFieldsType={this.getFieldsType}
+        handleDeleteRule={this.handleDeleteRule}
       />
     </div>;
   }

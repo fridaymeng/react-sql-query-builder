@@ -11,7 +11,7 @@ yarn add react-sql-query-builder
 ```
 
 ```js
-import * as queryBuilder from "vue-sql-query-builder";
+import { QueryBuilder } from "react-sql-query-builder";
 const queryBuilder = new QueryBuilder();
 const rules = [{
   condition: 'AND',

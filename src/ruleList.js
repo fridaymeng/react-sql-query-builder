@@ -1,6 +1,7 @@
 import React from "react";
 import { DatePicker, Button, Input, Row, Col, Select, Radio, Rate } from 'antd';
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 class RuleList extends React.Component {
   constructor(props) {
     super(props);
@@ -64,7 +65,16 @@ class RuleList extends React.Component {
                               </div>
                             </Col>
                             {this.props.getOperatorVisible(ruleItem.operator) ? <Col>
-                              <Input onChange={(e) => this.props.valChange(ruleItem.id, e.target.value)} defaultValue={ruleItem.value} />
+                              {this.props.getFieldsType(ruleItem.id) === 'DatePicker' ? <DatePicker /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'MonthPicker' ? <DatePicker picker="month" /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'RangePicker' ? <RangePicker /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'Category' ? <div className="value-select-wrap"><Select className="select">
+                                {ruleItem.categoryList ? ruleItem.categoryList.map(categoryItem => (
+                                  <Option key={categoryItem.id} value={categoryItem.id}>{ categoryItem.name }</Option>
+                                )) : null}
+                              </Select></div> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'Rate' ? <Rate /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === '' ? <Input onChange={(e) => this.props.valChange(ruleItem.id, e.target.value)} defaultValue={ruleItem.value} /> : null}
                             </Col> : null}
                           </Row>
                         </div> : null
@@ -83,6 +93,7 @@ class RuleList extends React.Component {
                     operatorChange={this.props.operatorChange}
                     valChange={this.props.valChange}
                     getOperatorVisible={this.props.getOperatorVisible}
+                    getFieldsType={this.props.getFieldsType}
                   /> : null }
                 </div>
               </div>

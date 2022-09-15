@@ -16,12 +16,17 @@ class App extends React.Component {
     this.operatorChange = this.operatorChange.bind(this);
     this.valChange = this.valChange.bind(this);
     this.getOperatorVisible = this.getOperatorVisible.bind(this);
+    this.getFieldsType = this.getFieldsType.bind(this);
   }
   componentDidMount() {
   }
   getOperatorVisible (id) {
     const arr = this.props.operators.filter(item => item.value === 'disabled').map(item => item.id)
     return !arr.includes(id)
+  }
+  getFieldsType (id) {
+    const obj = this.props.fields.find(item => item.id === id);
+    return obj['type'] ? obj['type'] : ''
   }
   generateKey (rules) {
     rules.forEach(item => {
@@ -85,6 +90,8 @@ class App extends React.Component {
   idChange (id, val) {
     this.findRulesById(this.state.rules, id, (item) => {
       item.id = val;
+      const obj = this.props.fields.find(fieldItem => fieldItem.id === item.id);
+      if (obj) item.categoryList = obj.categoryList;
     })
     this.updateRules();
   }
@@ -114,6 +121,7 @@ class App extends React.Component {
         idChange={this.idChange}
         operatorChange={this.operatorChange}
         valChange={this.valChange}
+        getFieldsType={this.getFieldsType}
       />
     </div>;
   }

@@ -35,7 +35,7 @@ const fields = [
   { name: "User", id: 2 },
   { name: "Age", id: 3 },
   { name: "Nation", id: 4 },
-  { name: "Category", id: 8, type: "Category", categoryList: [1, 2, 3, 4, 5] },
+  { name: "Category", id: 8, type: "Category", categoryList: [{id: 100, name: 'toms'}, {id: 101, name: 'jerry'}] },
   { name: "Rate", id: 9, type: "Rate" },
   { name: "Date Picker", id: 5, type: "DatePicker" },
   { name: "Month Picker", id: 6, type: "MonthPicker" },

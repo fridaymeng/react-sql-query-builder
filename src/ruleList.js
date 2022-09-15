@@ -44,7 +44,7 @@ class RuleList extends React.Component {
                           <Row gutter={8}>
                             <Col>
                               <div className="id-wrap">
-                                <Select onChange={(val) => this.props.idChange(ruleItem.id, val)} className="select" value={ruleItem.id}>
+                                <Select onChange={(val) => this.props.idChange(ruleItem.key, val)} className="select" value={ruleItem.id}>
                                   {
                                     this.props.fields ? this.props.fields.map(fieldItem => (
                                       <Option key={fieldItem.id} value={fieldItem.id}>{ fieldItem.name }</Option>
@@ -55,7 +55,7 @@ class RuleList extends React.Component {
                             </Col>
                             <Col>
                               <div className="operator-wrap">
-                                <Select onChange={(val) => this.props.operatorChange(ruleItem.id, val)} className="select" value={ruleItem.operator}>
+                                <Select onChange={(val) => this.props.operatorChange(ruleItem.key, val)} className="select" value={ruleItem.operator}>
                                   {
                                     this.props.operators ? this.props.operators.map(operatorItem => (
                                       <Option key={operatorItem.id} value={operatorItem.id}>{ operatorItem.name }</Option>
@@ -65,16 +65,16 @@ class RuleList extends React.Component {
                               </div>
                             </Col>
                             {this.props.getOperatorVisible(ruleItem.operator) ? <Col>
-                              {this.props.getFieldsType(ruleItem.id) === 'DatePicker' ? <DatePicker onChange={(val, dateString) => this.props.valChange(ruleItem.id, dateString)} /> : null}
-                              {this.props.getFieldsType(ruleItem.id) === 'MonthPicker' ? <DatePicker picker="month" onChange={(val, dateString) => this.props.valChange(ruleItem.id, dateString)} /> : null}
-                              {this.props.getFieldsType(ruleItem.id) === 'RangePicker' ? <RangePicker onChange={(val, dateString) => this.props.valChange(ruleItem.id, dateString)} /> : null}
-                              {this.props.getFieldsType(ruleItem.id) === 'Category' ? <div className="value-select-wrap"><Select className="select" onChange={(val) => this.props.valChange(ruleItem.id, val)}>
+                              {this.props.getFieldsType(ruleItem.id) === 'DatePicker' ? <DatePicker onChange={(val, dateString) => this.props.valChange(ruleItem.key, dateString)} /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'MonthPicker' ? <DatePicker picker="month" onChange={(val, dateString) => this.props.valChange(ruleItem.key, dateString)} /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'RangePicker' ? <RangePicker onChange={(val, dateString) => this.props.valChange(ruleItem.key, dateString)} /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'Category' ? <div className="value-select-wrap"><Select className="select" onChange={(val) => this.props.valChange(ruleItem.key, val)}>
                                 {ruleItem.categoryList ? ruleItem.categoryList.map(categoryItem => (
                                   <Option key={categoryItem.id} value={categoryItem.id}>{ categoryItem.name }</Option>
                                 )) : null}
                               </Select></div> : null}
-                              {this.props.getFieldsType(ruleItem.id) === 'Rate' ? <Rate onChange={(val) => this.props.valChange(ruleItem.id, val)} /> : null}
-                              {this.props.getFieldsType(ruleItem.id) === '' ? <Input onChange={(e) => this.props.valChange(ruleItem.id, e.target.value)} defaultValue={ruleItem.value} /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === 'Rate' ? <Rate onChange={(val) => this.props.valChange(ruleItem.key, val)} /> : null}
+                              {this.props.getFieldsType(ruleItem.id) === '' ? <Input onChange={(e) => this.props.valChange(ruleItem.key, e.target.value)} defaultValue={ruleItem.value} /> : null}
                             </Col> : null}
                           </Row>
                         </div> : null

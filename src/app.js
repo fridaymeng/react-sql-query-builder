@@ -17,6 +17,7 @@ class App extends React.Component {
     this.valChange = this.valChange.bind(this);
     this.getOperatorVisible = this.getOperatorVisible.bind(this);
     this.getFieldsType = this.getFieldsType.bind(this);
+    this.findRulesByKey = this.findRulesByKey.bind(this);
   }
   componentDidMount() {
   }
@@ -46,6 +47,14 @@ class App extends React.Component {
         callback(item, rules, index)
       }
       if (item.rules) this.findRulesById(item.rules, id, callback)
+    })
+  }
+  findRulesByKey (rules, key, callback) {
+    rules.forEach((item, index) => {
+      if (item.key === key) {
+        callback(item, rules, index)
+      }
+      if (item.rules) this.findRulesByKey(item.rules, key, callback)
     })
   }
   handleCondition (val) {
@@ -87,22 +96,22 @@ class App extends React.Component {
     })
     this.updateRules()
   }
-  idChange (id, val) {
-    this.findRulesById(this.state.rules, id, (item) => {
+  idChange (key, val) {
+    this.findRulesByKey(this.state.rules, key, (item) => {
       item.id = val;
       const obj = this.props.fields.find(fieldItem => fieldItem.id === item.id);
       if (obj) item.categoryList = obj.categoryList;
     })
     this.updateRules();
   }
-  operatorChange (id, val) {
-    this.findRulesById(this.state.rules, id, (item) => {
+  operatorChange (key, val) {
+    this.findRulesByKey(this.state.rules, key, (item) => {
       item.operator = val;
     })
     this.updateRules();
   }
-  valChange (id, val) {
-    this.findRulesById(this.state.rules, id, (item) => {
+  valChange (key, val) {
+    this.findRulesByKey(this.state.rules, key, (item) => {
       item.value = val;
     })
     this.updateRules();

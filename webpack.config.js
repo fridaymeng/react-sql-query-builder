@@ -7,7 +7,9 @@ module.exports = {
     path: path.resolve("lib"),
     filename: "index.js",
     library: {
-      type: "umd"
+      name: "QueryBuilder",
+      type: "umd",
+      export: "default"
     }
   },
   performance: { hints: false },

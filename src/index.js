@@ -11,6 +11,4 @@ class QueryBuilder {
     ReactDOM.render(<App {...params} />, document.getElementById(params.id));
   }
 }
-export {
-  QueryBuilder
-}
+export default QueryBuilder;

@@ -15,7 +15,7 @@ yarn add react-sql-query-builder
 ```
 ### Javascript
 ```js
-import { QueryBuilder } from "react-sql-query-builder";
+import QueryBuilder from "react-sql-query-builder";
 const queryBuilder = new QueryBuilder();
 const rules = [{
   condition: 'AND',
